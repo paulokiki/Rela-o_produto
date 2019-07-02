@@ -11,7 +11,7 @@ public class OrderItem {
 
     public OrderItem(Integer quantity, Double price) {
         this.quantity = quantity;
-        this.price = price;
+         this.price = price;
     }
 
     public Integer getQuantity() {
@@ -30,6 +30,14 @@ public class OrderItem {
         this.price = price;
     }
     
-    
+    public Double subTotal(Integer quantity, Double price){
+        Double subTotal;
+        this.setPrice(price);
+        this.setQuantity(quantity);
+         
+        subTotal = this.getPrice() * this.getQuantity();
+        
+        return subTotal;
+    }
     
 }
