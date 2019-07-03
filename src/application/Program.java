@@ -13,54 +13,51 @@ import java.util.Scanner;
 public class Program {
 
     public static void main(String[] args) throws ParseException {
-        Locale.setDefault(Locale.US);
-        Scanner sc = new Scanner(System.in);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+       Locale.setDefault(Locale.US);
+		Scanner sc = new Scanner(System.in);
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        System.out.println("Enter client data:");
+		System.out.println("Enter client data:");
+		System.out.print("Name: ");
+		String name = sc.nextLine();
+		System.out.print("Email: ");
+		String email = sc.next();
+		System.out.print("Birth date (DD/MM/YYYY): ");
+		Date birthDate = sdf.parse(sc.next());
+		
+		Client client = new Client(name, email, birthDate);
+		
+		System.out.println("Enter order data:");
+		System.out.print("Status: ");
+		OrderStatus status = OrderStatus.valueOf(sc.next());
+		
+		Order order = new Order(new Date(), status, client);
+		
+		System.out.print("How many items to this order? ");
+		int n = sc.nextInt();
+		for (int i=1; i<=n; i++) {
+			System.out.println("Enter #" + i + " item data:");
+			System.out.print("Product name: ");
+			sc.nextLine();
+			String productName = sc.nextLine();
+			System.out.print("Product price: ");
+			double productPrice = sc.nextDouble();
 
-        System.out.print("Name: ");
-        String nameClient = sc.nextLine();
+			Product product = new Product(productName, productPrice);
 
-        System.out.print("Email: ");
-        String emailClient = sc.nextLine();
+			System.out.print("Quantity: ");
+			int quantity = sc.nextInt();
 
-        System.out.print("Birth data: ");
-        Date birthDate = sdf.parse(sc.nextLine()); // informar a data de maneira correta
+			OrderItem orderItem = new OrderItem(quantity, productPrice, product); 
 
-        Client client = new Client(nameClient, emailClient, birthDate);
-
-        System.out.println("\nEnter order data:");
-        System.out.print("Status: ");
-        OrderStatus status = OrderStatus.valueOf(sc.nextLine());
-
-        System.out.print("How many items to this order?");
-        Integer n = sc.nextInt();
-
-        for (int i = 0; i < n; i++) {
-            System.out.println("Enter " + i + " item data:");
-           
-            System.out.print("Product name: ");
-            sc.nextLine();
-            String nameProduct = sc.nextLine();
-
-            System.out.print("Product price: ");
-            Double priceProduct = sc.nextDouble();
-
-            Product product = new Product(nameProduct, priceProduct);
-            
-            System.out.print("Quantity: ");
-            Integer quantity = sc.nextInt();
-            
-            OrderItem orderItem =  new OrderItem(quantity, priceProduct);
-            
-            
-            System.out.println("------------------------------------------------");
-            
-            
-
-        }
-
-    }
+			order.addItem(orderItem);
+		}
+		
+		System.out.println();
+		System.out.println("ORDER SUMMARY:");
+		System.out.println(order);
+		
+		sc.close();
+	}
 
 }
